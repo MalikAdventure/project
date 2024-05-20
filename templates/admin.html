@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+</head>
+<body>
+    {% for cat, msg in get_flashed_messages(True) %}
+        <p style="color: {{cat}}">{{msg}}</p><br>
+    {% endfor %}
+
+    <a href="/">Мой профиль</a><br><br>
+
+    {% for req in requests %}
+        <form action="/admin" method="post">
+            <input type="hidden" name="id_request" value="{{req.id}}">
+            {{ req.user.full_name}} | {{ req.user.phone }} | {{ req.user.login }} | {{ req.auto }} | {{ req.problem }} | {{ req.booking_datetime }}
+            <select name="id_status">
+                {% for status in statuses %}
+                    {% if req.status.id == status.id %}
+                        <option value="{{ status.id }}" selected>{{ status.name }}</option>
+                    {% else %}
+                        <option value="{{ status.id }}" >{{ status.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <input type="submit" value="Save">
+        </form>
+        <br>
+    {% endfor %}
+</body>
+</html>

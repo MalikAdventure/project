@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requests</title>
+</head>
+<body>
+    {% for cat, msg in get_flashed_messages(True) %}
+        <p style="color: {{cat}}">{{msg}}</p><br><br>
+    {% endfor %}
+    
+    {% if user.role.id == 2%}
+        <a href="/admin">Админ панель</a><br><br>
+    {% endif %}
+
+    <a href="/logout">Выйти из аккаунта</a><br><br>
+
+    <p>Я: {{ user.full_name }} | {{ user.login }}</p>
+    <div>
+        Мои заявки:
+        {% for req in requests %}
+        <ul>
+            <li> {{ req.auto }} | {{ req.problem }} ({{ req.booking_datetime }}) | {{ req.status.name }}</li>
+        </ul>
+        {% endfor %}
+        <br><br>
+    </div>
+    
+    Создать заявку:
+    <form action="/" method="post">
+        Auto (Car): <input type="text" name="auto"><br>
+        Problem: <input type="text" name="problem"><br>
+        DateTime: <input type="datetime-local" name="booking_datetime"> (только с 8:00 до 21:00)<br>
+        <input type="submit" value="Send">
+    </form>
+</body>
+</html>
